@@ -295,13 +295,501 @@
             </div>
         </div>
     </header>
+    <!-- 섹션영역 입니다 --><!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>seonjangwon_signup</title>
+        <!-- bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+        <!-- 주소api -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <style>
+            header{
+                background-color: rgba(0, 0, 0, 0.671);
+            }
+            .logo{
+                font-family: 'Yeon Sung', cursive;
+                font-size: 30px;
+            }
+    
+            #joininput{
+                visibility: hidden;
+            }
+            footer{
+                background-color: rgba(0, 0, 0, 0.671);
+                height: 100px;
+                font-size: 15px;
+            }
+            section{
+                display: block;
+            }
+        </style>
+        <script>
+            function select() {
+                const select = document.getElementById('domain').value;
+                let domain = document.getElementById('email_domain');
+    
+                domain.value=select;
+            }
+            function idcheck() {
+                const id = document.getElementById('id').value;
+                let idspan = document.getElementById('idch');
+                if (id.length==0){
+                    idspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 필수항목입니다.';
+                    
+                    idspan.style.color = 'red';
+                }else if(id.length<5 || id.length>20 ){
+                    idspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 5~20자이내로 작성해주세요.';
+                    
+                    idspan.style.color = 'red';
+                } else {
+                    idspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> 환영합니다.';
+                    idspan.style.color = 'green';
+                }
+            }
+            function pwcheck() {
+                const pw = document.getElementById('pw').value;
+                let pwspan = document.getElementById('pwch');
+                let pwspan2 = document.getElementById('pwch2');
+    
+                const exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#][!@#])(?=.*[\d])[a-zA-z\d!@#]{6,15}$/;
+    
+                if(pw.length==0){
+                    pwspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 필수항목입니다.';
+                    
+                    pwspan.style.color = 'red';
+                } else if(!pw.match(exp)){
+                    pwspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 사용 불가';
+                    pwspan2.innerHTML = "대,소문자/숫자\/ 특수문자[!@#]2개를 포함 6~15자이내로 작성해주세요"
+                    pwspan.style.color = 'red';
+                    pwspan2.style.color = 'red';
+                } else {
+                    pwspan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> 사용가능';
+                    pwspan2.style.visibility='hidden'
+                    pwspan.style.color = 'green';
+                }
+    
+            }
+            function pwcheck2(){
+                const pw = document.getElementById('pw').value;
+                const pw2 = document.getElementById('pw2').value;
+                let pwspan3 = document.getElementById('pwch3');
+                let pwspan4 = document.getElementById('pwch4');
+    
+                if (pw==pw2){
+                    pwspan3.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> 일치합니다.';
+                    
+                    pwspan3.style.color = 'green';
+                } else {
+                    pwspan3.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 일치하지 않습니다';
+                    
+                    pwspan3.style.color = 'red';
+                }
+            }
+            function namecheck(){
+                const name1 = document.getElementById('name').value;
+                let namech = document.getElementById('namech');
+    
+                if (name1.length==0){
+                    namech.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 필수항목입니다.';
+                    namech.style.color = 'red';
+                } else if(name1.length==1){
+                    namech.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 성과 이름 모두 입력해주세요';
+                    namech.style.color = 'red';
+                } else {
+                    namech.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> '+name1+'님 환영합니다';
+                    namech.style.color = 'green';
+                }
+            }
+            function phonech() {
+                const ph = document.getElementById('phone').value;
+                let phch =document.getElementById('phch');
+    
+                const exp = /^\d{3}-\d{4}-\d{4}$/;
+    
+                if(ph.match(exp)){
+                    phch.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> 사용가능';
+                    phch.style.color="green";
+                } else {
+                    phch.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/></svg> 사용 불가';
+                    phch.style.color="red";
+                }
+            }
+            function signup() {
+                document.getElementById('id').focus();
+            }
+            function allcheck(){
+                document.getElementById('terms_1').checked = document.getElementById('terms_all').checked;
+                document.getElementById('terms_2').checked = document.getElementById('terms_all').checked;
+                document.getElementById('terms_3').checked = document.getElementById('terms_all').checked;
+            }
+            function join(){
+                const id = document.getElementById('id').value; // id
+                const pw = document.getElementById('pw').value; // pw
+                const name = document.getElementById('name').value; // name
+                const email_id = document.getElementById('email-id') // email-id
+                const email_domain = document.getElementById('email_domain') // email-domain
+                const phone = document.getElementById('phone').value; // phone
+                const address = document.getElementById('sample6_postcode') // 우편번호 id
+                const joininput = document.getElementById('joininput');
+    
+                var link = '#id';
+    
+                const pwexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#][!@#])(?=.*[\d])[a-zA-z\d!@#]{6,15}$/; // pw
+                const phoneexp = /^\d{3}-\d{4}-\d{4}$/; // phone
+    
+                if (id.length==0){ // id
+                    alert('다시확인해주세요');
+                    document.getElementById('id').scrollIntoView();
+                    document.getElementById('id').focus();
+                } else if(pw.length==0){ //pw
+                    alert('다시확인해주세요');
+                    document.getElementById('pw').scrollIntoView();
+                    document.getElementById('pw').focus();
+                } else if(!pw.match(pwexp)){
+                    alert('다시확인해주세요');
+                    document.getElementById('pw').scrollIntoView();
+                    document.getElementById('pw').focus();
+                } else if (name.length==0){ // name
+                    alert('다시확인해주세요');
+                    document.getElementById('name').scrollIntoView();
+                    document.getElementById('name').focus();
+                } else if(name.length==1){
+                    alert('다시확인해주세요');
+                    document.getElementById('name').scrollIntoView();
+                    document.getElementById('name').focus();
+                } else if(!phone.match(phoneexp)){ // phone
+                    alert('다시확인해주세요');
+                    document.getElementById('phone').scrollIntoView();
+                    document.getElementById('phone').focus();
+                } else if(email_id.value==0){
+                    alert('다시확인해주세요');
+                    document.getElementById('email-id').scrollIntoView();
+                    document.getElementById('email-id').focus();
+                } else if(email_domain.value==0) {
+                    alert('다시확인해주세요');
+                    document.getElementById('email_domain').scrollIntoView();
+                    document.getElementById('email_domain').focus();
+                } else if(address.value==0) {
+                    alert('다시확인해주세요');
+                    document.getElementById('sample6_postcode').scrollIntoView();
+                    document.getElementById('sample6_postcode').focus();
+                } else if(!document.getElementById('terms_1').checked){
+                    alert('약관을 다시확인해주세요');
+                } else if(!document.getElementById('terms_2').checked){
+                    alert('약관을 다시확인해주세요');
+                } else {
+                    joininput.click();
+                }
+    
+            }
+            // 주소 api
+            function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+    
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+    
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+    
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+                    
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+    
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+        </script>
+    </head>
+    <body>
+        <!-- 헤더영역입니다 -->
+        <header id="header">
+            <div class="container d-flex align-items-center py-3">
+                <button class="btn btn-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
+                    <img src="./menu-up.svg" alt="menu">
+                </button>
+                <!-- offcanvas로 보여줄 내용입니다. -->
+                <div class="offcanvas offcanvas-start" id="offcanvas">
+                    <div class="offcanvas-header">
+                        <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <!-- 여기부터 offcanvas내용 작성하세요 -->
+                    <div class="offcanvas-body">
+                        <ul class="list-group list-group-flush nav" >
+                            <li class="list-group-item nav-item">
+                                <a href="./index.html#aboutme" class="nav-link text-dark" >Aboutme</a>
+                            </li>
+                            <li class="list-group-item nav-item">
+                                <a href="./index.html#skills" class="nav-link text-dark">Skills</a>
+                            </li>
+                            <li class="list-group-item nav-item">
+                                <a href="./index.html#projects" class="nav-link text-dark">Projects</a>
+                            </li>
+                            <li class="list-group-item nav-item">
+                                <a href="./index.html#end" class="nav-link text-dark">End</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- offcanvas 끝 -->
+                <ul class=" nav flex-grow-1">
+                    <li class="nav-item">
+                        <a href="./index.html#aboutme" class="nav-link text-light">About me</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./index.html#skills" class="nav-link text-light">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./index.html#projects" class="nav-link text-light">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./index.html#end" class="nav-link text-light">End</a>
+                    </li>
+    
+                </ul>
+                <ul class="col-4 nav flex-grow-1">
+                    <li class="nav-item">
+                        <a href="./index.html" class="logo nav-link text-light text-center">Seon Jang Won</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn text-light" onclick="location.href='./signin.html'">sign in</button>
+                    <button class="btn text-light" onclick="signup()">sign up</button>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-3"  ></div>
+                    <div class="col-6 text-start" id="main">
+                        <!-- 회원가입 정보 입력 -->
+                        <form action="test" method="post">
+                            <div class="py-3">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <label for="id" class="form-label">아이디</label>
+                                    </div>
+                                    <div class="col-auto"><span id="idch" ></span></div>
+                                </div>
+                                <input type="text" class="form-control py-3 border-primary" id="id" placeholder="5~20자이내로 작성해주세요" onblur="idcheck()">
+                            </div>
+                            <div class="py-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="pw" class="form-label">비밀번호</label> 
+                                    </div>
+                                    <div class="col-auto"><span id="pwch"></span></div>
+                                </div>
+                                <input type="password" class="form-control py-3 border-primary" id="pw" placeholder="대,소문자/숫자/특수문자[!@#]2개를 포함 6~15자이내로 작성해주세요" onblur="pwcheck()"><br>
+                                <span id="pwch2"></span>
+                            </div>
+                            <div class="py-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="pw2" class="form-label">비밀번호 확인</label> 
+                                    </div>
+                                    <div class="col-auto"><span id="pwch3"></span></div>
+                                </div>
+                                <input type="password" class="form-control py-3 border-primary" id="pw2" placeholder="비밀번호를 다시 입력해주세요" onkeyup="pwcheck2()"><br>
+                                <span id="pwch4"></span>
+                            </div>
+                            <div class="py-3">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <label for="name" class="form-label">성함</label>
+                                    </div>
+                                    <div class="col-auto"><span id="namech" ></span></div>
+                                </div>
+                                <input type="text" class="form-control py-3 border-primary" placeholder="성과 이름 모두 입력해주세요" id="name" onblur="namecheck()">
+                            </div>
+                            <div class="py-3">
+                                <label for="email-id" class="form-label">email</label>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <input type="text" class="form-control py-1 border-primary" id="email-id">
+                                    </div>
+                                    <div class="col-1 text-center">@</div>
+                                    <div class="col-4">
+                                        <input type="text" class="form-control py-1 border-primary" id="email_domain">
+                                    </div>
+                                    <div class="col-4">
+                                        <select name="" id="domain" class="form-select py-1 border-primary" onchange="select()">
+                                            <option selected>직접입력</option>
+                                            <option value="naver.com">네이버</option>
+                                            <option value="daum.net">다음</option>
+                                            <option value="gmail.com">구글</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-3">
+                                <label class="form-label">성별</label>
+                                <div class="row">
+                                    <div class="col-3 form-chck">
+                                        <input type="radio" class="form-check-input border-primary" name="gender" id="man" value="m">
+                                        <label for="man" class="form-check-label">남자</label>
+                                    </div>
+                                    <div class="col-3 form-chck">
+                                        <input type="radio" class="form-check-input border-primary" name="gender" id="woman" value="w">
+                                        <label for="woman" class="form-check-label">여자</label>
+                                    </div>
+                                    <div class="col-3 form-chck">
+                                        <input type="radio" class="form-check-input border-primary" name="gender" id="none" value="n" checked>
+                                        <label for="none" class="form-check-label">알수없음</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label for="phone" class="form-label">전화번호</label> 
+                                    </div>
+                                    <div class="col-auto">
+                                        <span id="phch"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control py-3 border-primary" id="phone" placeholder="-를 포함해 입력해주세요 ex : 010-1234-5678" onblur="phonech()">
+                            </div>
+                            <div class="py-3">
+                                <label for="address" class="form-label">주소</label>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <input class="form-control py-3 border-primary" type="text" id="sample6_postcode" placeholder="우편번호">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-control py-3 border-primary btn-primary" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >
+                                        </div>
+                                    </div>
+                                    <input class="form-control py-3 border-primary" type="text" id="sample6_address" placeholder="주소"><br>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input class="form-control py-3 border-primary" type="text" id="sample6_detailAddress" placeholder="상세주소">
+                                        </div>
+                                        <div class="col-6">
+                                            <input class="form-control py-3 border-primary" type="text" id="sample6_extraAddress" placeholder="참고항목">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="py-3">
+                                <label class="form-label">약관 동의</label>
+                                <div class="form-check py-3 ">
+                                    <input type="checkbox" class="form-check-input border-primary" name="terms" onclick="allcheck()" id="terms_all">
+                                    <label for="terms_all" class="form-label">모든 약관 동의</label>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item border-primary">
+                                        <input type="checkbox" class="form-check-input border-primary" id="terms_1" name="terms">
+                                        <label for="terms_1" class="form-label">이용약관 동의 (필수)</label>
+                                        <textarea cols="30" rows="auto" class="form-control">약관 내용</textarea>
+                                    </li>
+                                    <li class="list-group-item border-primary">
+                                        <input type="checkbox" class="form-check-input border-primary" id="terms_2">
+                                        <label for="terms_2" class="form-label">개인정보 동의 (필수)</label>
+                                        <textarea cols="30" rows="auto" class="form-control">약관 내용</textarea>
+                                    </li>
+                                    <li class="list-group-item border-primary">
+                                        <input type="checkbox" class="form-check-input border-primary" id="terms_3">
+                                        <label for="terms_3" class="form-label">광고수신 동의 (선택)</label>
+                                        <textarea cols="30" rows="auto" class="form-control">약관 내용</textarea>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="py-4 d-grid">
+                                <button type="button" class="form-control btn-primary" onclick="join()">가입하기</button>
+                                <input type="submit" class="form-control btn-primary" value="가입하기" onclick="join()" id="joininput">
+                            </div>
+    
+                        </form>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            
+        </section>
+        <footer id="footer">
+            <div class="container">
+                <div class="row text-light">
+                    <div class="col-0.5"></div>
+                    <div class="col-9">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg> Seon jang won <br>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                        </svg> 010-1234-1234 <br>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                        </svg> email@email.com <br>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mailbox" viewBox="0 0 16 16">
+                            <path d="M4 4a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3zm0-1h8a4 4 0 0 1 4 4v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V7a4 4 0 0 1 4-4zm2.646 1A3.99 3.99 0 0 1 8 7v6h7V7a3 3 0 0 0-3-3H6.646z"/>
+                            <path d="M11.793 8.5H9v-1h5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.354-.146l-.853-.854zM5 7c0 .552-.448 0-1 0s-1 .552-1 0a1 1 0 0 1 2 0z"/>
+                        </svg> my home! 
+                    </div>
+                    <div class="col-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                          </svg><a class="btn text-light" href="#">git hub</a><br>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                          </svg><a class="btn text-light" href="#">instagram</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+    </html>
     <section>
         <div class="container">
             <div class="row">
                 <div class="col-3"  ></div>
                 <div class="col-6 text-start" id="main">
                     <!-- 회원가입 정보 입력 -->
-                    <form action="test" method="post">
+                    <form action="join" method="post">
                         <div class="py-3">
                             <div class="row">
                                 <div class="col-7">
